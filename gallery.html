@@ -1,35 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reagan Wabululu | Gallery</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery - Reagan Wabululu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #e3f2fd, #f9f9f9);
+    /* ====== RESET ====== */
+    * {
       margin: 0;
       padding: 0;
-      color: #333;
+      box-sizing: border-box;
     }
 
-    h1 {
-      text-align: center;
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f9ff, #e3f2fd);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* ====== NAVBAR ====== */
+    header {
       background: #1e88e5;
       color: white;
-      padding: 20px 0;
-      margin: 0;
-      font-size: 2em;
-      letter-spacing: 1px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
 
-    .gallery {
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    .logo span {
+      color: #ffeb3b;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 18px;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links li a:hover {
+      color: #ffeb3b;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+    }
+
+    /* ====== DARK MODE TOGGLE ====== */
+    .dark-mode-toggle {
+      background: none;
+      border: 2px solid white;
+      border-radius: 50%;
+      color: white;
+      font-size: 1rem;
+      padding: 5px 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .dark-mode-toggle:hover {
+      background: white;
+      color: #1e88e5;
+    }
+
+    /* ====== GALLERY ====== */
+    section.gallery {
+      text-align: center;
+      padding: 40px 20px;
+      animation: fadeIn 1s ease;
+    }
+
+    section.gallery h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      color: #1e88e5;
+    }
+
+    section.gallery p {
+      margin-bottom: 30px;
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .gallery-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 15px;
-      padding: 25px;
-      animation: fadeIn 1.5s ease;
+      padding: 0 20px;
+    }
+
+    .gallery-container img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .gallery-container img:hover {
+      transform: scale(1.07);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     }
 
     @keyframes fadeIn {
@@ -37,22 +137,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .gallery img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      cursor: pointer;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .gallery img:hover {
-      transform: scale(1.07);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    }
-
-    /* Lightbox Styles */
+    /* ====== LIGHTBOX ====== */
     .lightbox {
       display: none;
       position: fixed;
@@ -118,6 +203,7 @@
     .prev { left: 40px; }
     .next { right: 40px; }
 
+    /* ====== FOOTER ====== */
     footer {
       text-align: center;
       background: #1e88e5;
@@ -126,35 +212,87 @@
       margin-top: 20px;
       font-size: 0.9em;
     }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background: #1565c0;
+        width: 100%;
+        text-align: center;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>My Animated Gallery</h1>
 
-  <div class="gallery">
-    <img src="assets/images/1.jpg" alt="Photo 1">
-    <img src="assets/images/2.jpg" alt="Photo 2">
-    <img src="assets/images/3.jpg" alt="Photo 3">
-    <img src="assets/images/4.jpg" alt="Photo 4">
-    <img src="assets/images/5.jpg" alt="Photo 5">
-    <img src="assets/images/6.jpg" alt="Photo 6">
-    <img src="assets/images/7.jpg" alt="Photo 7">
-    <img src="assets/images/8.jpg" alt="Photo 8">
-    <img src="assets/images/9.jpg" alt="Photo 9">
-    <img src="assets/images/10.jpg" alt="Photo 10">
-    <img src="assets/images/11.jpg" alt="Photo 11">
-    <img src="assets/images/12.jpg" alt="Photo 12">
-    <img src="assets/images/13.jpg" alt="Photo 13">
-    <img src="assets/images/14.jpg" alt="Photo 14">
-    <img src="assets/images/15.jpg" alt="Photo 15">
-    <img src="assets/images/16.jpg" alt="Photo 16">
-    <img src="assets/images/17.jpg" alt="Photo 17">
-    <img src="assets/images/18.jpg" alt="Photo 18">
-    <img src="assets/images/19.jpg" alt="Photo 19">
-    <img src="assets/images/20.jpg" alt="Photo 20">
-  </div>
+  <!-- ====== NAVBAR ====== -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">Reagan<span>Portfolio</span></div>
 
-  <!-- Lightbox -->
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="testimonials.html">Testimonials</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+    </nav>
+  </header>
+
+  <!-- ====== GALLERY SECTION ====== -->
+  <section class="gallery">
+    <h1>Gallery</h1>
+    <p>A showcase of my work, projects, and moments.</p>
+
+    <div class="gallery-container">
+      <img src="assets/images/1.jpg" alt="Gallery 1">
+      <img src="assets/images/2.jpg" alt="Gallery 2">
+      <img src="assets/images/3.jpg" alt="Gallery 3">
+      <img src="assets/images/4.jpg" alt="Gallery 4">
+      <img src="assets/images/5.jpg" alt="Gallery 5">
+      <img src="assets/images/6.jpg" alt="Gallery 6">
+      <img src="assets/images/7.jpg" alt="Gallery 7">
+      <img src="assets/images/8.jpg" alt="Gallery 8">
+      <img src="assets/images/9.jpg" alt="Gallery 9">
+      <img src="assets/images/10.jpg" alt="Gallery 10">
+      <img src="assets/images/11.jpg" alt="Gallery 11">
+      <img src="assets/images/12.jpg" alt="Gallery 12">
+      <img src="assets/images/13.jpg" alt="Gallery 13">
+      <img src="assets/images/14.jpg" alt="Gallery 14">
+      <img src="assets/images/15.jpg" alt="Gallery 15">
+      <img src="assets/images/16.jpg" alt="Gallery 16">
+      <img src="assets/images/17.jpg" alt="Gallery 17">
+      <img src="assets/images/18.jpg" alt="Gallery 18">
+      <img src="assets/images/19.jpg" alt="Gallery 19">
+      <img src="assets/images/20.jpg" alt="Gallery 20">
+    </div>
+  </section>
+
+  <!-- ====== LIGHTBOX ====== -->
   <div class="lightbox" id="lightbox">
     <span class="close-btn" id="closeBtn">&times;</span>
     <span class="nav-btn prev" id="prevBtn">&#10094;</span>
@@ -162,12 +300,35 @@
     <span class="nav-btn next" id="nextBtn">&#10095;</span>
   </div>
 
+  <!-- ====== FOOTER ====== -->
   <footer>
     <p>© 2025 Reagan Wabululu | All Rights Reserved</p>
   </footer>
 
   <script>
-    const images = document.querySelectorAll('.gallery img');
+    // ====== NAVBAR TOGGLE ======
+    function toggleMenu() {
+      const nav = document.getElementById('navLinks');
+      nav.classList.toggle('active');
+    }
+
+    // ====== DARK MODE TOGGLE ======
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      const btn = document.querySelector('.dark-mode-toggle');
+      if (document.body.classList.contains('dark')) {
+        document.body.style.background = '#121212';
+        document.body.style.color = '#fff';
+        btn.textContent = '☀️';
+      } else {
+        document.body.style.background = 'linear-gradient(135deg, #f5f9ff, #e3f2fd)';
+        document.body.style.color = '#333';
+        btn.textContent = '🌙';
+      }
+    }
+
+    // ====== LIGHTBOX ======
+    const images = document.querySelectorAll('.gallery-container img');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
     const closeBtn = document.getElementById('closeBtn');
