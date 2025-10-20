@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery - Reagan Wabululu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: var(--bg, #f5f5f5);
+      color: var(--text, #222);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #222;
+      color: #fff;
+      padding: 10px 20px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover, .nav-links .active {
+      color: #00bcd4;
+    }
+
+    .gallery {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .upload-btn {
+      display: inline-block;
+      background: #00bcd4;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 20px 0;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .upload-btn:hover {
+      background: #0097a7;
+    }
+
+    .gallery-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      padding: 10px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      display: none;
+    }
+
+    .gallery-item:hover .delete-btn {
+      display: block;
+    }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lightbox-content {
+      max-width: 90%;
+      max-height: 80%;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+    }
+
+    footer {
+      background: #222;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">Reagan<span>Portfolio</span></div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="gallery.html" class="active">Gallery</a></li>
+        <li><a href="testimonials.html">Testimonials</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+    </nav>
+  </header>
+
+  <section class="gallery">
+    <h1>Gallery</h1>
+    <p>A showcase of my work, projects, and moments.</p>
+
+    <label for="upload-input" class="upload-btn">📸 Upload Image</label>
+    <input type="file" id="upload-input" accept="image/*" multiple hidden>
+
+    <div class="gallery-container" id="gallery-container"></div>
+  </section>
+
+  <div id="lightbox" class="lightbox">
+    <span class="close" onclick="closeLightbox()">&times;</span>
+    <img class="lightbox-content" id="lightbox-img">
+  </div>
+
+  <footer>
+    <p>© 2025 Reagan Wabululu | All Rights Reserved</p>
+  </footer>
+
+  <script>
+    const uploadInput = document.getElementById('upload-input');
+    const galleryContainer = document.getElementById('gallery-container');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    // Load saved images
+    window.addEventListener('load', () => {
+      const savedImages = JSON.parse(localStorage.getItem('galleryImages')) || [];
+      savedImages.forEach(src => addImage(src));
+    });
+
+    // Handle uploads
+    uploadInput.addEventListener('change', (event) => {
+      const files = event.target.files;
+      const savedImages = JSON.parse(localStorage.getItem('galleryImages')) || [];
+
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const imageSrc = e.target.result;
+          addImage(imageSrc);
+          savedImages.push(imageSrc);
+          localStorage.setItem('galleryImages', JSON.stringify(savedImages));
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    // Add image
+    function addImage(src) {
+      const div = document.createElement('div');
+      div.classList.add('gallery-item');
+      div.innerHTML = `
+        <img src="${src}" alt="Uploaded Image" onclick="openLightbox('${src}')">
+        <button class="delete-btn" onclick="deleteImage('${src}', this)">🗑️</button>
+      `;
+      galleryContainer.appendChild(div);
+    }
+
+    // Lightbox functions
+    function openLightbox(src) {
+      lightbox.style.display = 'flex';
+      lightboxImg.src = src;
+    }
+
+    function closeLightbox() {
+      lightbox.style.display = 'none';
+    }
+
+    // Delete image
+    function deleteImage(src, btn) {
+      btn.parentElement.remove();
+      let savedImages = JSON.parse(localStorage.getItem('galleryImages')) || [];
+      savedImages = savedImages.filter(image => image !== src);
+      localStorage.setItem('galleryImages', JSON.stringify(savedImages));
+    }
+
+    // Dark mode toggle
+    function toggleDarkMode() {
+      if (document.body.style.backgroundColor === "black") {
+        document.body.style.backgroundColor = "";
+        document.body.style.color = "";
+      } else {
+        document.body.style.backgroundColor = "black";
+        document.body.style.color = "white";
+      }
+    }
+  </script>
+</body>
+</html>
