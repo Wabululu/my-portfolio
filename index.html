@@ -1,44 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reagan Wabululu - Portfolio</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== GENERAL STYLES ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      color: #fff;
+      background: #0d0d0d;
+      overflow-x: hidden;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===== VIDEO BACKGROUND ===== */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    .video-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    /* ===== NAVBAR ===== */
+    header {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    .navbar {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+    }
+
+    .logo {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .logo span {
+      color: #00bfff;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-links li a {
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links li a:hover {
+      color: #00bfff;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      transition: 0.3s;
+    }
+
+    .dark-mode-toggle {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.3em;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .dark-mode-toggle:hover {
+      transform: scale(1.2);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 100px auto 0;
+      padding: 0 20px;
+    }
+
+    .hero-content {
+      flex: 1;
+      min-width: 280px;
+      z-index: 1;
+    }
+
+    .hero-content h1 {
+      font-size: 2.5em;
+      margin-bottom: 15px;
+    }
+
+    .hero-content span {
+      color: #00bfff;
+    }
+
+    .hero-content p {
+      font-size: 1.2em;
+      margin-bottom: 25px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: 2px solid #00bfff;
+      border-radius: 30px;
+      color: #00bfff;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      background: #00bfff;
+      color: #fff;
+    }
+
+    .btn-primary {
+      background: #00bfff;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #0099cc;
+    }
+
+    .hero-image {
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+    }
+
+    .hero-image img {
+      width: 80%;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 191, 255, 0.4);
+    }
+
+    /* ===== COUNTERS ===== */
+    .counters {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      margin: 80px auto;
+      max-width: 800px;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .counter-box h2 {
+      font-size: 2.5em;
+      color: #00bfff;
+      margin-bottom: 5px;
+    }
+
+    .counter-box p {
+      font-size: 1.1em;
+      color: #ddd;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #aaa;
+    }
+
+    /* ===== DARK MODE ===== */
+    body.dark-mode {
+      background: #f2f2f2;
+      color: #111;
+    }
+
+    body.dark-mode .logo span,
+    body.dark-mode .btn,
+    body.dark-mode .btn-primary {
+      color: #0077b6;
+      border-color: #0077b6;
+    }
+
+    body.dark-mode .btn-primary {
+      background: #0077b6;
+      color: #fff;
+    }
+
+    body.dark-mode .navbar {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+      }
+
+      .hero-image img {
+        width: 70%;
+        margin-top: 20px;
+      }
+
+      .counters {
+        gap: 20px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <!-- ====== NAVBAR ====== -->
+  <!-- ===== NAVBAR ===== -->
   <header>
     <nav class="navbar">
-  <div class="logo">Reagan<span>Portfolio</span></div>
+      <div class="logo">Reagan<span>Portfolio</span></div>
 
-  <!-- Hamburger menu button -->
-  <div class="hamburger" onclick="toggleMenu()">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
 
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="skills.html">Skills</a></li>
-    <li><a href="projects.html">Projects</a></li>
-    <li><a href="services.html">Services</a></li>
-    <li><a href="experience.html">Experience</a></li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="gallery.html">Gallery</a></li>
-    <li><a href="testimonials.html">Testimonials</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="testimonials.html">Testimonials</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
 
-  <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
-</nav>
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+    </nav>
   </header>
 
-  <!-- ====== HERO SECTION ====== -->
+  <!-- ===== HERO SECTION ===== -->
   <section class="hero">
     <div class="hero-content">
       <h1>Hello, I'm <span>Reagan Wabululu</span></h1>
@@ -52,34 +322,73 @@
       <img src="assets/Reagan.png" alt="Reagan Profile">
     </div>
   </section>
-<!-- ====== VIDEO BACKGROUND WATERMARK ====== -->
-<video autoplay muted loop playsinline id="bg-video">
-  <source src="assets/watermark.mp4" type="video/mp4">
-  Your browser does not support HTML5 video.
-</video>
 
-<!-- Overlay for readability -->
-<div class="video-overlay"></div>
-<!-- Overlay for readability -->
-  <!-- ====== COUNTERS ====== -->
+  <!-- ===== VIDEO BACKGROUND ===== -->
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="assets/watermark.mp4" type="video/mp4" />
+    Your browser does not support HTML5 video.
+  </video>
+  <div class="video-overlay"></div>
+
+  <!-- ===== COUNTERS ===== -->
   <section class="counters">
     <div class="counter-box">
-      <h2 id="projects-count">5</h2>
+      <h2 data-target="5">0</h2>
       <p>Projects Completed</p>
     </div>
     <div class="counter-box">
-      <h2 id="skills-count">10+</h2>
+      <h2 data-target="10">0</h2>
       <p>Skills Learned</p>
     </div>
     <div class="counter-box">
-      <h2 id="experience-count">5</h2>
+      <h2 data-target="5">0</h2>
       <p>Years Experience</p>
     </div>
   </section>
 
-  <!-- ====== FOOTER ====== -->
+  <!-- ===== FOOTER ===== -->
   <footer>
     <p>© 2025 Reagan Wabululu | All Rights Reserved</p>
   </footer>
+
+  <script>
+    // ===== MOBILE MENU =====
+    function toggleMenu() {
+      document.querySelector('.nav-links').classList.toggle('active');
+    }
+
+    // ===== DARK MODE TOGGLE =====
+    function toggleDarkMode() {
+      const body = document.body;
+      body.classList.toggle('dark-mode');
+      const icon = document.querySelector('.dark-mode-toggle');
+      icon.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+      localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+    }
+
+    // Load saved mode
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.querySelector('.dark-mode-toggle').textContent = '☀️';
+    }
+
+    // ===== COUNTER ANIMATION =====
+    const counters = document.querySelectorAll('[data-target]');
+    counters.forEach(counter => {
+      const updateCounter = () => {
+        const target = +counter.getAttribute('data-target');
+        const count = +counter.innerText;
+        const increment = target / 200;
+
+        if (count < target) {
+          counter.innerText = Math.ceil(count + increment);
+          setTimeout(updateCounter, 10);
+        } else {
+          counter.innerText = target;
+        }
+      };
+      updateCounter();
+    });
+  </script>
 </body>
 </html>
